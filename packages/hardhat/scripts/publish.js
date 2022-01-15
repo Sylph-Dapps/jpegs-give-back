@@ -1,7 +1,6 @@
 const fs = require("fs");
 const chalk = require("chalk");
 
-const graphDir = "../subgraph";
 const deploymentsDir = "./deployments";
 const publishDir = "../react-app/src/contracts";
 
@@ -11,21 +10,7 @@ function publishContract(contractName, networkName) {
       .readFileSync(`${deploymentsDir}/${networkName}/${contractName}.json`)
       .toString();
     contract = JSON.parse(contract);
-    const graphConfigPath = `${graphDir}/config/config.json`;
-    let graphConfig;
-    try {
-      if (fs.existsSync(graphConfigPath)) {
-        graphConfig = fs.readFileSync(graphConfigPath).toString();
-      } else {
-        graphConfig = "{}";
-      }
-    } catch (e) {
-      console.log(e);
-    }
-
-    graphConfig = JSON.parse(graphConfig);
-    graphConfig[`${networkName}_${contractName}Address`] = contract.address;
-
+    
     const folderPath = graphConfigPath.replace("/config.json", "");
     if (!fs.existsSync(folderPath)) {
       fs.mkdirSync(folderPath);

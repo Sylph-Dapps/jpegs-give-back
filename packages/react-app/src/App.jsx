@@ -11,7 +11,6 @@ import {
 import { useExchangeEthPrice } from "eth-hooks/dapps/dex";
 import React, { useCallback, useEffect, useState } from "react";
 import { Link, Route, Switch, useLocation } from "react-router-dom";
-import "./App.css";
 import {
   Account,
   Contract,
@@ -31,6 +30,8 @@ import deployedContracts from "./contracts/hardhat_contracts.json";
 import { Transactor, Web3ModalSetup } from "./helpers";
 import { Home, ExampleUI, Hints } from "./views";
 import { useStaticJsonRPC } from "./hooks";
+
+import "./App.scss";
 
 const { ethers } = require("ethers");
 /*
@@ -89,7 +90,7 @@ function App(props) {
   const localProvider = useStaticJsonRPC([
     process.env.REACT_APP_PROVIDER ? process.env.REACT_APP_PROVIDER : targetNetwork.rpcUrl,
   ]);
-  const mainnetProvider = useStaticJsonRPC(providers);
+  //const mainnetProvider = useStaticJsonRPC(providers);
 
   if (DEBUG) console.log(`Using ${selectedNetwork} network`);
 
@@ -107,7 +108,7 @@ function App(props) {
   };
 
   /* 💵 This hook will get the price of ETH from 🦄 Uniswap: */
-  const price = useExchangeEthPrice(targetNetwork, mainnetProvider);
+  //const price = useExchangeEthPrice(targetNetwork, mainnetProvider);
 
   /* 🔥 This hook will get the price of Gas from ⛽️ EtherGasStation */
   const gasPrice = useGasPrice(targetNetwork, "fast");
@@ -154,17 +155,20 @@ function App(props) {
   // EXTERNAL CONTRACT EXAMPLE:
   //
   // If you want to bring in the mainnet DAI contract it would look like:
-  const mainnetContracts = useContractLoader(mainnetProvider, contractConfig);
+  //const mainnetContracts = useContractLoader(mainnetProvider, contractConfig);
 
   // If you want to call a function on a new block
-  useOnBlock(mainnetProvider, () => {
+  /*useOnBlock(mainnetProvider, () => {
     console.log(`⛓ A new mainnet block is here: ${mainnetProvider._lastBlockNumber}`);
   });
+  */
 
   // Then read your DAI balance like:
+  /*
   const myMainnetDAIBalance = useContractReader(mainnetContracts, "DAI", "balanceOf", [
     "0x34aA3F359A9D614239015126635CE7732c18fDF3",
   ]);
+  */
 
   // keep track of a variable from the contract in the local React state:
   //const purpose = useContractReader(readContracts, "PunksVsApes", "purpose");
@@ -180,36 +184,36 @@ function App(props) {
   useEffect(() => {
     if (
       DEBUG &&
-      mainnetProvider &&
+      //mainnetProvider &&
       address &&
       selectedChainId &&
       yourLocalBalance &&
       //yourMainnetBalance &&
       readContracts &&
-      writeContracts &&
-      mainnetContracts
+      writeContracts
+      //mainnetContracts
     ) {
       console.log("_____________________________________ 🏗 scaffold-eth _____________________________________");
-      console.log("🌎 mainnetProvider", mainnetProvider);
+      //console.log("🌎 mainnetProvider", mainnetProvider);
       console.log("🏠 localChainId", localChainId);
       console.log("👩‍💼 selected address:", address);
       console.log("🕵🏻‍♂️ selectedChainId:", selectedChainId);
       console.log("💵 yourLocalBalance", yourLocalBalance ? ethers.utils.formatEther(yourLocalBalance) : "...");
       //console.log("💵 yourMainnetBalance", yourMainnetBalance ? ethers.utils.formatEther(yourMainnetBalance) : "...");
       console.log("📝 readContracts", readContracts);
-      console.log("🌍 DAI contract on mainnet:", mainnetContracts);
-      console.log("💵 yourMainnetDAIBalance", myMainnetDAIBalance);
+      //console.log("🌍 DAI contract on mainnet:", mainnetContracts);
+      //console.log("💵 yourMainnetDAIBalance", myMainnetDAIBalance);
       console.log("🔐 writeContracts", writeContracts);
     }
   }, [
-    mainnetProvider,
+    //mainnetProvider,
     address,
     selectedChainId,
     yourLocalBalance,
     //yourMainnetBalance,
     readContracts,
     writeContracts,
-    mainnetContracts,
+    //mainnetContracts,
   ]);
 
   const loadWeb3Modal = useCallback(async () => {
@@ -245,13 +249,17 @@ function App(props) {
         address={address}
         localProvider={localProvider}
         userSigner={userSigner}
-        mainnetProvider={mainnetProvider}
         web3Modal={web3Modal}
         loadWeb3Modal={loadWeb3Modal}
         logoutOfWeb3Modal={logoutOfWeb3Modal}
         blockExplorer={blockExplorer}
       />
-      <Menu style={{ textAlign: "center", marginTop: 40 }} selectedKeys={[location.pathname]} mode="horizontal">
+      {/*
+      <Menu
+        style={{ textAlign: "center", marginTop: 40 }}
+        selectedKeys={[location.pathname]}
+        mode="horizontal"
+      >
         <Menu.Item key="/">
           <Link to="/">App Home</Link>
         </Menu.Item>
@@ -259,6 +267,7 @@ function App(props) {
           <Link to="/debug">Debug Contracts</Link>
         </Menu.Item>
       </Menu>
+      */}
 
       <Switch>
         <Route exact path="/">
@@ -268,10 +277,10 @@ function App(props) {
         <Route exact path="/debug">
           <Contract
             name="PunksVsApes"
-            price={price}
             signer={userSigner}
             provider={localProvider}
             address={address}
+            chainId={localChainId}
             blockExplorer={blockExplorer}
             contractConfig={contractConfig}
           />
