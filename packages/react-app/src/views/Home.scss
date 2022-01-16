@@ -3,4 +3,72 @@
   padding: 20px;
   margin: 0px auto;
   text-align: left;
+
+  .grand-total {
+    text-align: center;
+    font-size: 1.5em;
+    margin-bottom: 1em;
+    font-weight: bold;
+  }
+
+  .tracker {
+    margin: 1em auto 2em auto;
+    border: 1.5px solid black;
+    width: 75%;
+    font-size: 1.25em;
+    border-top-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    padding: 15px;
+    box-shadow: 10px 10px 5px #444;
+    
+    .breakdown {
+      font-weight: bold;
+      text-decoration: underline;
+    }
+  
+    .tracker-row {
+      margin: 10px 0px;
+      
+      .bar-container {
+        display: flex;
+        gap: 5px;
+        align-items: center;
+        font-weight: normal;
+        
+        .bar {
+          width: 100%;
+          height: 30px;
+          border-top-right-radius: 10px;
+          border-bottom-right-radius: 10px;
+        
+          &.punk {
+            background: linear-gradient(#a02669, #e0529c, #a02669, #a02669);
+          }
+      
+          &.ape {
+            background: linear-gradient(#164c7e, #3c9ae8, #164c7e, #164c7e);
+          }
+      
+          &.other {
+            background: linear-gradient(#3c8618, #6abe39, #3c8618, #3c8618);
+          }
+        }
+      }
+    }
+  }
+
+  .donation-section {
+    text-align: center;
+    margin-bottom: 1em;
+
+    .donate-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .thanks {
+      font-weight: bold;
+    }
+  }
 }
